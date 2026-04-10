@@ -1,6 +1,7 @@
 package com.backend.Persona.controller;
 
 import com.backend.Persona.dto.AprobarRequest;
+import com.backend.Persona.dto.LoginRequest;
 import com.backend.Persona.dto.NotificarRequest;
 import com.backend.Persona.model.Administrativo;
 import com.backend.Persona.service.AdministrativoService;
@@ -67,6 +68,13 @@ public class AdministrativoController {
                     service.enviarNotificacion(request.getMensaje());
                     return ResponseEntity.ok().<Void>build();
                 })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/login")
+    public ResponseEntity<Boolean> login(@PathVariable Long id, @RequestBody LoginRequest request) {
+        return service.findById(id)
+                .map(a -> ResponseEntity.ok(service.login(request.getUsuario(), request.getPassword())))
                 .orElse(ResponseEntity.notFound().build());
     }
 }

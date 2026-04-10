@@ -1,6 +1,8 @@
 package com.backend.Persona.service;
 
+import com.backend.Persona.interfaces.Autenticable;
 import com.backend.Persona.interfaces.Evaluador;
+import com.backend.Persona.interfaces.Notificable;
 import com.backend.Persona.model.Estudiante;
 import com.backend.Persona.model.Profesor;
 import com.backend.Persona.repository.ProfesorRepository;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProfesorService implements Evaluador {
+public class ProfesorService implements Evaluador, Autenticable, Notificable {
 
     @Autowired
     private ProfesorRepository repository;
@@ -46,5 +48,15 @@ public class ProfesorService implements Evaluador {
     @Override
     public void evaluar(Estudiante estudiante, double nota) {
         System.out.println("Evaluando al estudiante " + estudiante.getNombre() + " con nota: " + nota);
+    }
+
+    @Override
+    public boolean login(String usuario, String password) {
+        return "admin".equals(usuario) && "1234".equals(password);
+    }
+
+    @Override
+    public void enviarNotificacion(String mensaje) {
+        System.out.println("Enviando notificación al profesor: " + mensaje);
     }
 }

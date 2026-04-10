@@ -1,6 +1,8 @@
 package com.backend.Persona.controller;
 
 import com.backend.Persona.dto.EvaluarRequest;
+import com.backend.Persona.dto.LoginRequest;
+import com.backend.Persona.dto.NotificarRequest;
 import com.backend.Persona.model.Profesor;
 import com.backend.Persona.service.EstudianteService;
 import com.backend.Persona.service.ProfesorService;
@@ -61,5 +63,22 @@ public class ProfesorController {
                 return ResponseEntity.ok().<Void>build();
             }).orElse(ResponseEntity.notFound().build());
         }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/login")
+    public ResponseEntity<Boolean> login(@PathVariable Long id, @RequestBody LoginRequest request) {
+        return service.findById(id)
+                .map(p -> ResponseEntity.ok(service.login(request.getUsuario(), request.getPassword())))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/notificar")
+    public ResponseEntity<Void> notificar(@PathVariable Long id, @RequestBody NotificarRequest request) {
+        return service.findById(id)
+                .map(p -> {
+                    service.enviarNotificacion(request.getMensaje());
+                    return ResponseEntity.ok().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }

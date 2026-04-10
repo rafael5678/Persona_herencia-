@@ -1,6 +1,7 @@
 package com.backend.Persona.service;
 
 import com.backend.Persona.interfaces.Aprobador;
+import com.backend.Persona.interfaces.Autenticable;
 import com.backend.Persona.interfaces.Notificable;
 import com.backend.Persona.model.Administrativo;
 import com.backend.Persona.repository.AdministrativoRepository;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AdministrativoService implements Aprobador, Notificable {
+public class AdministrativoService implements Aprobador, Notificable, Autenticable {
 
     @Autowired
     private AdministrativoRepository repository;
@@ -51,5 +52,10 @@ public class AdministrativoService implements Aprobador, Notificable {
     @Override
     public void enviarNotificacion(String mensaje) {
         System.out.println("Notificación enviada: " + mensaje);
+    }
+
+    @Override
+    public boolean login(String usuario, String password) {
+        return "admin".equals(usuario) && "1234".equals(password);
     }
 }

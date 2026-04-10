@@ -1,6 +1,7 @@
 package com.backend.Persona.controller;
 
 import com.backend.Persona.dto.LoginRequest;
+import com.backend.Persona.dto.NotificarRequest;
 import com.backend.Persona.model.Estudiante;
 import com.backend.Persona.service.EstudianteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,16 @@ public class EstudianteController {
     public ResponseEntity<Boolean> login(@PathVariable Long id, @RequestBody LoginRequest request) {
         return service.findById(id)
                 .map(e -> ResponseEntity.ok(service.login(request.getUsuario(), request.getPassword())))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/notificar")
+    public ResponseEntity<Void> notificar(@PathVariable Long id, @RequestBody NotificarRequest request) {
+        return service.findById(id)
+                .map(e -> {
+                    service.enviarNotificacion(request.getMensaje());
+                    return ResponseEntity.ok().<Void>build();
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 }

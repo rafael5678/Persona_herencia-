@@ -1,6 +1,7 @@
 package com.backend.Persona.service;
 
 import com.backend.Persona.interfaces.Autenticable;
+import com.backend.Persona.interfaces.Notificable;
 import com.backend.Persona.model.Estudiante;
 import com.backend.Persona.repository.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EstudianteService implements Autenticable {
+public class EstudianteService implements Autenticable, Notificable {
 
     @Autowired
     private EstudianteRepository repository;
@@ -45,5 +46,10 @@ public class EstudianteService implements Autenticable {
     @Override
     public boolean login(String usuario, String password) {
         return "admin".equals(usuario) && "1234".equals(password);
+    }
+
+    @Override
+    public void enviarNotificacion(String mensaje) {
+        System.out.println("Enviando notificación al estudiante: " + mensaje);
     }
 }
