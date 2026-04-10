@@ -3,7 +3,10 @@ package com.backend.Persona.service;
 import com.backend.Persona.interfaces.Autenticable;
 import com.backend.Persona.interfaces.Notificable;
 import com.backend.Persona.model.Estudiante;
+import com.backend.Persona.model.Notificacion;
+import com.backend.Persona.model.Persona;
 import com.backend.Persona.repository.EstudianteRepository;
+import com.backend.Persona.repository.NotificacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ public class EstudianteService implements Autenticable, Notificable {
 
     @Autowired
     private EstudianteRepository repository;
+
+    @Autowired
+    private NotificacionRepository notificacionRepository;
 
     public List<Estudiante> findAll() {
         return repository.findAll();
@@ -49,7 +55,9 @@ public class EstudianteService implements Autenticable, Notificable {
     }
 
     @Override
-    public void enviarNotificacion(String mensaje) {
-        System.out.println("Enviando notificación al estudiante: " + mensaje);
+    public void enviarNotificacion(Persona persona, String mensaje) {
+        Notificacion notificacion = new Notificacion(mensaje, persona);
+        notificacionRepository.save(notificacion);
+        System.out.println("Enviando y guardando notificación al estudiante " + persona.getNombre() + ": " + mensaje);
     }
 }

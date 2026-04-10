@@ -65,7 +65,7 @@ public class AdministrativoController {
     public ResponseEntity<Void> notificar(@PathVariable Long id, @RequestBody NotificarRequest request) {
         return service.findById(id)
                 .map(a -> {
-                    service.enviarNotificacion(request.getMensaje());
+                    service.enviarNotificacion(a, request.getMensaje());
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());

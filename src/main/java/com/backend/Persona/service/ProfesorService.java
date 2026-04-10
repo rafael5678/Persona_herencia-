@@ -4,7 +4,10 @@ import com.backend.Persona.interfaces.Autenticable;
 import com.backend.Persona.interfaces.Evaluador;
 import com.backend.Persona.interfaces.Notificable;
 import com.backend.Persona.model.Estudiante;
+import com.backend.Persona.model.Notificacion;
+import com.backend.Persona.model.Persona;
 import com.backend.Persona.model.Profesor;
+import com.backend.Persona.repository.NotificacionRepository;
 import com.backend.Persona.repository.ProfesorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,9 @@ public class ProfesorService implements Evaluador, Autenticable, Notificable {
 
     @Autowired
     private ProfesorRepository repository;
+
+    @Autowired
+    private NotificacionRepository notificacionRepository;
 
     public List<Profesor> findAll() {
         return repository.findAll();
@@ -56,7 +62,9 @@ public class ProfesorService implements Evaluador, Autenticable, Notificable {
     }
 
     @Override
-    public void enviarNotificacion(String mensaje) {
-        System.out.println("Enviando notificación al profesor: " + mensaje);
+    public void enviarNotificacion(Persona persona, String mensaje) {
+        Notificacion notificacion = new Notificacion(mensaje, persona);
+        notificacionRepository.save(notificacion);
+        System.out.println("Enviando y guardando notificación al profesor " + persona.getNombre() + ": " + mensaje);
     }
 }

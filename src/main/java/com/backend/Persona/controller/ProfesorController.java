@@ -76,7 +76,7 @@ public class ProfesorController {
     public ResponseEntity<Void> notificar(@PathVariable Long id, @RequestBody NotificarRequest request) {
         return service.findById(id)
                 .map(p -> {
-                    service.enviarNotificacion(request.getMensaje());
+                    service.enviarNotificacion(p, request.getMensaje());
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());

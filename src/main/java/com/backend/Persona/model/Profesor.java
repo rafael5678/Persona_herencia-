@@ -41,7 +41,7 @@ public class Profesor extends Persona implements Autenticable, Notificable, Eval
     }
 
     @Override
-    public void enviarNotificacion(String mensaje) {
-        System.out.println("Enviando notificación al profesor " + getNombre() + ": " + mensaje);
+    public void enviarNotificacion(Persona persona, String mensaje) {
+        System.out.println("Enviando notificación al profesor " + persona.getNombre() + ": " + mensaje);
     }
 }

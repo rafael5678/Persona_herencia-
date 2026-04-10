@@ -35,7 +35,7 @@ public class Estudiante extends Persona implements Autenticable, Notificable {
     }
 
     @Override
-    public void enviarNotificacion(String mensaje) {
-        System.out.println("Enviando notificación al estudiante " + getNombre() + ": " + mensaje);
+    public void enviarNotificacion(Persona persona, String mensaje) {
+        System.out.println("Enviando notificación al estudiante " + persona.getNombre() + ": " + mensaje);
     }
 }

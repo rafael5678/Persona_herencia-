@@ -61,7 +61,7 @@ public class EstudianteController {
     public ResponseEntity<Void> notificar(@PathVariable Long id, @RequestBody NotificarRequest request) {
         return service.findById(id)
                 .map(e -> {
-                    service.enviarNotificacion(request.getMensaje());
+                    service.enviarNotificacion(e, request.getMensaje());
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());
